@@ -95,6 +95,17 @@ The action sends the target `url`, your scan settings and any `headers` to the s
 
 Pin `@v1` for compatible updates (the `v1` tag moves with each `v1.x.y` release), or a full tag such as `@v1.0.0` or a commit SHA for reproducibility. Breaking changes ship under a new major version.
 
+Releases are cut automatically. When CI passes on `main`, [semantic-release](https://semantic-release.org) reads the [Conventional Commits](https://www.conventionalcommits.org) since the last tag, publishes the next version as a GitHub Release with generated notes, and moves the major tag to it:
+
+| Commit                                                   | Release |
+| -------------------------------------------------------- | ------- |
+| `fix:`, `perf:`, `revert:`                               | patch   |
+| `feat:`                                                  | minor   |
+| `!` after the type, or a `BREAKING CHANGE:` footer       | major   |
+| `docs:`, `ci:`, `chore:`, `refactor:`, `test:`, `style:` | none    |
+
+Merge commits are ignored, so the commits on the branch (or the pull request title, when squash merging) must follow the convention. The tag is the version; `package.json` is not updated.
+
 ## Development
 
 ```sh
